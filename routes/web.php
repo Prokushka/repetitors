@@ -2,10 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    Log::info('Welcome page visited');
-    return view('welcome');
-});
+
 
 Route::get('/info', function () {
     Log::info('Phpinfo page visited');
@@ -63,3 +60,4 @@ Route::get('/health', function () {
 
     return response()->json($status, $httpStatus);
 });
+Route::fallback([\App\Http\Controllers\User\HomeController::class, 'vue']);

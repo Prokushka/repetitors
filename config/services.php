@@ -34,5 +34,9 @@ return [
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
     ],
+    'vk' =>[
+        'access_token' => env('API_VK_KEY'),
+        'version' => env('API_VK_VERSION', 5.119)
+    ]
 
 ];
