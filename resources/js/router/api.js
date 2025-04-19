@@ -5,8 +5,8 @@ import router from "./router.js";
 
 const api = axios.create()
 api.interceptors.request.use(config => {
-    const results = config.document.cookie.match(/access_token=(undefined|null)/);
-    if (results){
+    //const results = config.document.cookie.match(/access_token=(undefined|null)/);
+    if (localStorage.getItem('access_token') === 'undefined'){
         localStorage.removeItem('access_token')
     }
     const token = localStorage.getItem('access_token')

@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Profile;
+use App\Services\ParseVkService;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 
@@ -14,7 +15,8 @@ class ParsingVk implements ShouldQueue
      * Create a new job instance.
      */
     public function __construct(
-        protected Profile $profile
+        protected int $count,
+        protected string $domain
     )
     {
 
@@ -25,6 +27,6 @@ class ParsingVk implements ShouldQueue
      */
     public function handle(): void
     {
-        //
+        ParseVkService::getFriends($this->count,$this->domain);
     }
 }

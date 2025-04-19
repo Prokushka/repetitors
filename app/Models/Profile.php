@@ -17,6 +17,7 @@ class Profile extends Model
         'last_name',
         'description',
         'sex',
+        'image',
         'vk_id'
     ];
 

@@ -9,6 +9,8 @@
         "laravel/framework": "^11.9",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
+        "lcobucci/clock": "^3.3",
+        "lcobucci/jwt": "^5.5",
         "predis/predis": "^2.3"
     },
     "require-dev": {

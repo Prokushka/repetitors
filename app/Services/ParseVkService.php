@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Jobs\ParsingVk;
 use App\Models\Profile;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -17,7 +18,7 @@ use Illuminate\Support\Facades\Log;
             $response = Http::withoutVerifying()->connectTimeout(2)->acceptJson()->get('https://api.vk.com/method/wall.get',[
                 'access_token' => config('services.vk.access_token'),
                 'domain' => $domain,
-                'offset' => 10 * $offset,
+                'offset' => $count * $offset,
                 'count' => $count,
                 'filter' => 'others',
                 'extended' => 1,
@@ -40,7 +41,8 @@ use Illuminate\Support\Facades\Log;
         $friends = self::parse($count, $offset, $domain);
         $offset++;
 
-        dump($offset);
+
+        $text = collect($friends['items']);
 
 
         /*foreach ($friends ?? [] as $friend){
@@ -54,18 +56,23 @@ use Illuminate\Support\Facades\Log;
                 ]);
         }*/
         // $response['response']['items'][0]['attachments'][0]['photo_400_orig']['user_id'];
-        for ($i = 0; $i < count($friends['items']); $i++){
+        for ($i = 0; $i < count($friends['profiles']); $i++){
+
+            $authorText = $text->where('from_id', $friends['profiles'][$i]['id'])->pluck('text');
+
+
 
             if (
                 !Profile::query()->where('vk_id', $friends['items'][$i]['from_id'])->exists() &&
                 !empty($friends['items'][$i]['text']
                 )){
-                ProfileService::parseImage($friends['profiles'][$i]['first_name'] . '_' . $friends['profiles'][$i]['last_name'], $friends['profiles'][$i]['photo_max']);
+                $image = ProfileService::parseImage($friends['profiles'][$i]['first_name'] . '_' . $friends['profiles'][$i]['last_name'], $friends['profiles'][$i]['photo_max']);
                 Profile::query()->create([
                     'sex' => $friends['profiles'][$i]['sex'],
                     'first_name' => $friends['profiles'][$i]['first_name'],
                     'last_name' => $friends['profiles'][$i]['last_name'],
-                    'description' => $friends['items'][$i]['text'],
+                    'image' => $image,
+                    'description' => $authorText->first(),
                     'user_id' => 1,
                     'vk_id' => $friends['profiles'][$i]['id'],
                 ]);
@@ -76,8 +83,8 @@ use Illuminate\Support\Facades\Log;
 
 
         }
-
-        self::getFriends($i, $domain);
+        sleep(rand(1,3));
+        ParsingVk::dispatch($i, $domain);
     }
 
 

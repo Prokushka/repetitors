@@ -15,10 +15,9 @@ use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Token\Plain;
 use Lcobucci\JWT\Token\Parser;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
-use Lcobucci\JWT\Validation\Constraint\ValidAt;
+use Lcobucci\JWT\Validation\Constraint\LooseValidAt;
 use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
 use Lcobucci\Clock\SystemClock;
-use function Pest\Laravel\forgetMock;
 
 class JWTGuard implements Guard
 {
@@ -70,7 +69,7 @@ class JWTGuard implements Guard
                 );
                 $configuration->setValidationConstraints(
                     new SignedWith($configuration->signer(), $configuration->signingKey()),
-                    new ValidAt(SystemClock::fromUTC())
+                    new LooseValidAt(SystemClock::fromUTC())
                 );
                 $configuration->validator()->assert($token, ...$configuration->validationConstraints());
             }catch (RequiredConstraintsViolated $e){

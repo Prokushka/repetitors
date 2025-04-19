@@ -29,7 +29,7 @@ class JWTSecretKeyCommand extends Command
      */
     public function handle()
     {
-        $key = base64_encode(fake()->text(32));
+        $key = base64_encode(fake()->realTextBetween(150, 160));
 
         try {
 

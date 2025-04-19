@@ -29,10 +29,9 @@ class ApiVkCommand extends Command
      */
     public function handle()
     {
-        Redis::set('foo', 'bar');
-        var_dump(Redis::get('foo'));
+
         $choice = $this->choice('parse from where?', ['my.tutor', 'repetitorovnet']);
-        ParseVkService::getFriends( 30, $choice);
+        ParseVkService::getFriends( 10, $choice);
 
     }
 }

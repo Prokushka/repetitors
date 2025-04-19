@@ -9,8 +9,8 @@
         rel="stylesheet"
     />
 </head>
-<body>
-<div id="app">
+<body class="bg-white">
+<div id="admin">
     <router-view></router-view>
 </div>
 </body>

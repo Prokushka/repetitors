@@ -1,7 +1,11 @@
 <?php
 
+use App\Http\Controllers\User\HomeController;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Storage;
 
 
 Route::get('/info', function () {
@@ -18,7 +22,7 @@ Route::get('/health', function () {
         // Optionally, run a simple query
         DB::select('SELECT 1');
         $status['database'] = 'OK';
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         $status['database'] = 'Error';
     }
 
@@ -31,7 +35,7 @@ Route::get('/health', function () {
         } else {
             $status['redis'] = 'Error';
         }
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         $status['redis'] = 'Error';
     }
 
@@ -47,7 +51,7 @@ Route::get('/health', function () {
         } else {
             $status['storage'] = 'Error';
         }
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         $status['storage'] = 'Error';
     }
 
@@ -60,4 +64,7 @@ Route::get('/health', function () {
 
     return response()->json($status, $httpStatus);
 });
-Route::fallback([\App\Http\Controllers\User\HomeController::class, 'vue']);
+Route::get('/admin/{any}',[HomeController::class, 'admin'])->where('any', '.*');
+Route::fallback([HomeController::class, 'vue']);
+
+

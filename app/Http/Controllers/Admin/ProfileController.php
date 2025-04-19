@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Services\ProfileService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -23,11 +24,11 @@ class ProfileController extends Controller
      */
 
 
-    public function index()
+    public function index(): ResourceCollection
     {
 
         $profiles = Profile::all();
-        return view('profile.index', ['profiles' => $profiles]);
+        return ProfileResource::collection($profiles);
     }
 
     /**

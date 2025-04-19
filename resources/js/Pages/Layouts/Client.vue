@@ -1,12 +1,12 @@
 <script>
 
-import Index from "./Index.vue";
-import router from "../router/router.js";
-import api from "../router/api.js";
+
+import router from "../../router/router.js";
+import api from "../../router/api.js";
 
 export default {
-    name: "Layout",
-    components: {Index},
+    name: "ClientLayout",
+
     data(){
         return{
             accessToken : null
@@ -39,9 +39,7 @@ export default {
 </script>
 
 <template>
-
     <header >
-
         <nav class="w-full h-[60px] bg-cyan-800 text-white text-2xl py-2">
             <div class="flex justify-items-start ">
                 <div v-if="accessToken" class="mx-3 h-12 hover:bg-white hover:text-blue-800 rounded-md px-1 py-2 transition hover:duration-300">
@@ -66,10 +64,6 @@ export default {
         </nav>
     </header>
     <router-view/>
-
-
-
-
 </template>
 
 <style scoped>

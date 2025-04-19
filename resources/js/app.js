@@ -3,7 +3,15 @@ import './bootstrap';
 import router from "./router/router.js";
 import { createApp } from 'vue'
 
-import Layout from "@/Pages/Layout.vue";
-const app = createApp(Layout)
+import Client from "@/Pages/Main.vue";
+import Admin from "./Pages/Layouts/Admin.vue";
 
-app.use(router).mount('#app')
+
+
+const client = createApp(Client)
+
+client.use(router).mount('#app')
+
+const admin = createApp(Admin)
+
+admin.use(router).mount('#admin')

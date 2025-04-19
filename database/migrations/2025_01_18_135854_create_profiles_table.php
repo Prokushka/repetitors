@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
-            $table->string('image')->nullable();
+            $table->text('image')->nullable();
             $table->boolean('sex')->default(2);
             $table->text('description')->nullable();
-            $table->foreignId('user_id')->constrained()->nullOnDelete();
+            $table->foreignId('user_id')->constrained();
             $table->unsignedBigInteger('vk_id')->nullable();
             $table->timestamps();
         });

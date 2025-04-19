@@ -50,7 +50,7 @@ class AuthController extends Controller
     public function refresh(Request $request)
     {
         $parser = new Parser(new JoseEncoder());
-        if ($request->cookie('refresh_token')){
+        if (empty($request->cookie('refresh_token'))){
             return response()->json(['error' => 'refresh_token is null']);
         }
 

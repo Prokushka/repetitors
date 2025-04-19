@@ -8,8 +8,8 @@
 
                 <input class="input-form"  type="text" v-model="name" placeholder="Name" name="email" >
                 <textarea class="input-form" v-model="description" placeholder="Description"></textarea>
-                <input class="input-form " style="display: none" id="file-input" @change="handleFileUpload" type="file" name="image"  placeholder="Description"/>
-                <label for="file-input" class="text-white mt-3 py-2 ">
+                <input class="input-form " style="display: none" id="file-input" @change="handleFileUpload" type="file" name="image"  placeholder="Description">
+                <label for="file-input" class="text-white mt-3 py-2 "  >
                     Choose photo for profile
                 </label>
                 <input  type="submit" value="Отправить"  class="input-button">
@@ -20,8 +20,8 @@
     </div>
 </template>
 <script>
-    import router from "../../router/router.js";
-    import api from "../../router/api.js";
+    import router from "../../../router/router.js";
+    import api from "../../../router/api.js";
     export default {
         name: "Create",
         data(){
