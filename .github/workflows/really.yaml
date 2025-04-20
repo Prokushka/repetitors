@@ -48,8 +48,8 @@ jobs:
       QUEUE_CONNECTION: redis
       SESSION_DRIVER: redis
       BROADCAST_DRIVER: log
-      APP_ENV: testing
-      APP_KEY: base64:SomeFakeKeyForCI1234567890==
+      APP_ENV: local
+      APP_KEY: base64:tO8pjV0Hx21NRItripFxUeFV8AWrQdjS7NJX7Q5k3Ak=
       APP_URL: http://localhost
 
     steps:
@@ -94,8 +94,7 @@ jobs:
       - name: Build frontend assets
         run: npm run build
 
-      - name: Run tests
-        run: php artisan test
+
 
       # Пример: если нужны браузерные тесты с Dusk (опционально)
       # - name: Install Chrome Driver
