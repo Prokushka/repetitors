@@ -13,22 +13,22 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build containers
-        run: docker-compose -f compose.dev.yml build
+        run: docker-compose -f compose.dev.yaml build
 
       - name: Start services
-        run: docker-compose -f compose.dev.yml up -d
+        run: docker-compose -f compose.dev.yaml up -d
 
       - name: Run tests
-        run: docker-compose -f compose.dev.yml exec workspace php artisan test
+        run: docker-compose -f compose.dev.yaml exec workspace php artisan test
 
       - name: Run migrations
-        run: docker-compose -f compose.dev.yml exec workspace php artisan migrate --force
+        run: docker-compose -f compose.dev.yaml exec workspace php artisan migrate --force
 
       - name: Install NPM dependencies
-        run: docker-compose -f compose.dev.yml exec workspace npm ci
+        run: docker-compose -f compose.dev.yaml exec workspace npm ci
 
       - name: Build frontend assets
-        run: docker-compose -f compose.dev.yml exec workspace npm run build
+        run: docker-compose -f compose.dev.yaml exec workspace npm run build
 
       - name: Run frontend
-        run: docker-compose -f compose.dev.yml exec workspace npm run dev
+        run: docker-compose -f compose.dev.yaml exec workspace npm run dev
