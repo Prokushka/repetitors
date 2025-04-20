@@ -7,34 +7,102 @@ on:
 
 jobs:
   laravel-tests:
-    permissions:
-      packages: read
-      actions: read
-      contents: write
     runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_DATABASE: laravel
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_USER: user
+          MYSQL_PASSWORD: password
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+      redis:
+        image: redis:7.2
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd="redis-cli ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    env:
+      DB_CONNECTION: mysql
+      DB_HOST: 127.0.0.1
+      DB_PORT: 3306
+      DB_DATABASE: laravel
+      DB_USERNAME: user
+      DB_PASSWORD: password
+      REDIS_HOST: 127.0.0.1
+      REDIS_PORT: 6379
+      CACHE_DRIVER: redis
+      QUEUE_CONNECTION: redis
+      SESSION_DRIVER: redis
+      BROADCAST_DRIVER: log
+      APP_ENV: testing
+      APP_KEY: base64:SomeFakeKeyForCI1234567890==
+      APP_URL: http://localhost
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: create env
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, bcmath, pdo_mysql, redis
+
+      - name: Copy .env
         run: cp .env.example .env
 
-      - name: Start services
-        run: docker compose -f compose.dev.yaml up -d
-
-      - name: run Composer
+      - name: Install Composer dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
-      - name: Run tests
-        run: docker compose -f compose.dev.yaml exec workspace php artisan optimize
+
+      - name: Generate Laravel application key
+        run: php artisan key:generate
+
+      - name: Wait for MySQL to be ready
+        run: |
+          for i in {1..30}; do
+            if mysqladmin ping -h127.0.0.1 -uuser -ppassword; then
+              break
+            fi
+            sleep 2
+          done
 
       - name: Run migrations
-        run: docker compose -f compose.dev.yaml exec workspace php artisan migrate --force
+        run: php artisan migrate --force
 
       - name: Install NPM dependencies
-        run: docker compose -f compose.dev.yaml exec workspace npm ci
+        run: npm ci
 
       - name: Build frontend assets
-        run: docker compose -f compose.dev.yaml exec workspace npm run build
+        run: npm run build
 
-      - name: Run frontend
-        run: docker compose -f compose.dev.yaml exec workspace npm run dev
+      - name: Run tests
+        run: php artisan test
+
+      # Пример: если нужны браузерные тесты с Dusk (опционально)
+      # - name: Install Chrome Driver
+      #   run: php artisan dusk:chrome-driver
+      # - name: Start Chrome Driver
+      #   run: ./vendor/laravel/dusk/bin/chromedriver-linux &
+      # - name: Serve Application
+      #   run: php artisan serve &
+      # - name: Run Dusk Tests
+      #   run: php artisan dusk
