@@ -7,6 +7,10 @@ on:
 
 jobs:
   laravel-tests:
+    permissions:
+      packages: read
+      actions: read
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -14,9 +18,6 @@ jobs:
 
       - name: create env
         run: cp .env.example .env
-
-      - name: Start services
-        run: docker compose -f compose.dev.yaml up -d
 
       - name: run Composer
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
