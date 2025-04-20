@@ -12,15 +12,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Build containers
-        run: docker compose -f compose.dev.yaml build
       - name: create env
         run: cp .env.example .env
+
       - name: Start services
         run: docker compose -f compose.dev.yaml up -d
 
       - name: Run tests
-        run: docker compose -f compose.dev.yaml exec workspace php artisan test
+        run: docker compose -f compose.dev.yaml exec workspace php artisan optimize
 
       - name: Run migrations
         run: docker compose -f compose.dev.yaml exec workspace php artisan migrate --force
