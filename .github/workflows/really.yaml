@@ -19,6 +19,9 @@ jobs:
       - name: create env
         run: cp .env.example .env
 
+      - name: Start services
+        run: docker compose -f compose.dev.yaml up -d
+
       - name: run Composer
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
       - name: Run tests
