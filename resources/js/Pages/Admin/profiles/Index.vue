@@ -32,7 +32,7 @@ name: "Profiles",
 </script>
 
 <template>
-    <div class="flex place-content-center text-2xl ">
+    <div class="flex place-content-center text-2xl mt-5 ">
         <table class="border-collapse border-2  border-slate-400  ">
             <thead >
             <tr>

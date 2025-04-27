@@ -18,7 +18,7 @@
 
                 }).then(e => {
                     localStorage.setItem('access_token', e.data.access_token)
-                    router.push({name: "index"})
+                    router.push({name: "profile"})
                 }).catch(e => {
                     this.error = e.response.data.error
                     console.log(e)
@@ -36,7 +36,7 @@
 <template>
 
     <div class="container relative justify-items-center mx-auto mt-20  ">
-        <div class=" bg-cyan-800 text-center min-w-[375px] sm:size-3/4 md:size-1/2 lg:size-3/5 size-3/5 mb-10 pt-20 pb-10 rounded-2xl border-gray-200 border-2" >
+        <div class=" bg-violet-950 text-center min-w-[375px] sm:size-3/4 md:size-1/2 lg:size-3/5 size-3/5 mb-10 pt-20 pb-10 rounded-2xl border-gray-200 border-2" >
             <div class=" mb-5 text-4xl py-3 text-center text-white">
                 Вход
             </div>

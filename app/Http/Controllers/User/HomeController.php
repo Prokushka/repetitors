@@ -20,6 +20,10 @@ class HomeController extends Controller
         return view('app');
     }
 
+    public function main()
+    {
+        return view('main');
+    }
     public function admin()
     {
         return view('admin');

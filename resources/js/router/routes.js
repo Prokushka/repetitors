@@ -8,6 +8,8 @@ import Main from "../Pages/Main.vue";
 import Likes from "../Pages/Admin/likes/Index.vue"
 import Images from "../Pages/Admin/images/Index.vue"
 import Profiles from "../Pages/Admin/profiles/Index.vue";
+import Rating from "../Pages/Admin/categories/Index.vue"
+import Category from "../Pages/Admin/categories/Index.vue"
  const routes = [
     { path: '/', name: 'Client', component: Main },
     { path: '/profile', name: 'profile', component: Profile },
@@ -18,8 +20,7 @@ import Profiles from "../Pages/Admin/profiles/Index.vue";
     { path: '/admin/create_profiles', name: 'admin_profiles_create', component: Create },
     { path: '/admin/likes', name: 'admin_likes', component: Likes },
     { path: '/admin/images', name: 'admin_images', component: Images },
-    { path: '/admin/rating', name: 'admin_rating', component: Show },
-    { path: '/admin/category', name: 'admin_category', component: Show },
-    { path: '/admin/show_profile/:id(\\d+)', name: 'admin_show', component: Show },
+    { path: '/admin/rating', name: 'admin_rating', component: Rating },
+    { path: '/admin/category', name: 'admin_category', component: Category },
 ]
 export default routes

@@ -31,7 +31,7 @@ api.interceptors.response.use(config => {
             error.config.headers.Authorization = `Bearer ${res.data.access_token}`
             return api.request(error.config)
         }).catch(error => {
-            if (error.response.data.error === "refresh_token is null"){
+            if (error.response.data.error === "refresh_token is undefined"){
                 localStorage.removeItem('access_token')
                 router.push({name: 'login'})
             }

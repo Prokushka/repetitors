@@ -1,7 +1,9 @@
 <script>
 import sleep from "@/func.js";
+import api from "@/router/api.js";
+import router from "@/router/router.js";
 export default {
-    name: "Client",
+    name: "Main",
     data(){
         return{
             slide: false,
@@ -14,7 +16,9 @@ export default {
             endAnim: true,
             isActive: false,
             type: 'hidden',
-            leftMenu: true
+            leftMenu: true,
+            accessToken : null
+
         }
     },
     methods:{
@@ -57,59 +61,34 @@ export default {
                 this.leftMenu = false
 
             }
+        },
+        getAccessToken(){
+            this.accessToken = localStorage.getItem('access_token')
+        },
+        logout(){
+            api.post('/api/auth/logout').then(res =>{
+                localStorage.removeItem('access_token')
+                router.push({name: 'login'})
+            }).catch(e => {console.log(e)})
         }
 
     },
     mounted() {
         this.start()
         this.animate()
-
+        this.getAccessToken()
     }
 }
 </script>
 
 <template>
+
     <div id="all" class="overflow-hidden w-full h-screen  relative">
-        <img class="absolute z-10  lg:inset-48 inset-0  -rotate-45 text-white bg-fixed" width="600px" src="http://localhost/storage/back-flower.png" alt="">
-        <img class="absolute z-10 sm:hidden md:hidden xl:block lg:hidden top-48 right-40 skew-12  -rotate-45 text-white bg-fixed" width="600px" src="http://localhost/storage/back-flower.png" alt="">
-        <img class=" absolute z-10 sm:hidden md:hidden xl:block lg:block  -top-52 right-40 skew-12 -rotate-90 text-white bg-fixed" width="200px" src="http://localhost/storage/back-flower.png" >
-        <div id="first" class="absolute z-30 w-full top-0 overflow-hidden  ">
-            <section class=""> <!--top sidebar-->
-                <div class=" justify-center shadow-violet-950   bg-violet-950 snap-always text-white">
+        <img class="absolute z-10  lg:inset-48 inset-0  -rotate-45 text-white bg-fixed" width="600px" src="http://127.0.0.1:8000/storage/back-flower.png">
+        <img class="absolute z-10 sm:hidden md:hidden xl:block lg:hidden top-48 right-40 skew-12  -rotate-45 text-white bg-fixed" width="600px" src="http://127.0.0.1:8000/storage/back-second-flower.png" >
+        <img class=" absolute z-10 sm:hidden md:hidden xl:block lg:block  -top-52 right-40 skew-12 -rotate-90 text-white bg-fixed" width="200px" src="http://127.0.0.1:8000/storage/back-third-flower.png" >
 
-                    <nav class="py-3 sm:hidden lg:block text-[25px] shadow-md  rounded-b-md">
-                        <ul class="flex justify-items-start  ">
-                            <li class=" ml-3 mr-5 ">
-                                <a href="#"></a>Client Part
-                            </li>
-                            <li class="mx-3 ">
-                                <a href="#">Profile</a>
-                            </li>
-                            <li class="mx-3 ">
-                                <a href="#">Category</a>
-                            </li>
-                            <li class="mx-3 ">
-                                <a href="#">Likes</a>
-                            </li>
-                            <li class="mx-3 ">
-                                <a href="#">Images</a>
-                            </li>
-                            <li class="mx-3 ">
-                                <a href="#">Rating</a>
-                            </li>
-                        </ul>
-                        <div class="absolute  flex-row top-3 right-2">
-                            <div>
-                                <a href="#">Login</a>
-                                <a class="px-3" href="#">Register</a>
-                            </div>
-                        </div>
-                    </nav>
-                </div>
 
-            </section>
-
-        </div>
         <section id="left-navbar" :class="{'animate-leftMenu' : !leftMenu, 'border-r-2' : !leftMenu}" class=" border-white left-0 z-40  text-white rounded-r-lg h-full text-2xl px-2 bg-violet-950 absolute sm:block lg:hidden"><!--NAVBAR-LEFT-->
 
             <div class="relative  " >
@@ -128,14 +107,14 @@ export default {
             </div>
 
         </section>
-        <div id="scrollbars" class=" overflow-y-scroll  scroll-smooth h-screen  top-14 absolute w-full z-30 flex-col  snap-y">
+        <div id="scrollbars" class=" overflow-y-scroll  scroll-smooth h-screen  absolute w-full z-30 flex-col  ">
             <section class="z-20 " id="search">
                 <div class="container mt-5 place-content-center relative w-[600px] ">
                     <i class="ri-search-2-line  text-violet-900 text-xl absolute top-[3px] right-2   "></i>
                     <input class="rounded-md ring-4 mb-1 ring-violet-950/35 outline-2 outline-violet-700  text-2xl w-full placeholder:text-gray-500 placeholder:text-center" placeholder="Search!" type="text" >
                 </div>
             </section>
-            <section  class="z-20 container scroll-auto  break-normal  snap-start lg:scroll-my-96 pt-2  h-screen   " id="main">
+            <section  class="z-20 container scroll-auto  break-normal   lg:scroll-my-96 pt-2  h-screen   " id="main">
                 <div  class="mt-5 xl:animate-slide  relative border-white border  bg-violet-950/70 xl:w-[1300px] xl:h-[750px] sm:w-auto sm:h-auto h-auto w-auto rounded-3xl  place-self-center shadow-2xl shadow-violet-950">
                     <div class="absolute xl:block sm:hidden lg:animate-hardAnimation bg-white place-content-center rounded-full size-10">
                     </div>
@@ -164,7 +143,7 @@ export default {
                     </div>
                 </div>
             </section>
-            <section  class="z-20 container scroll-m-96 scroll-auto snap-start pt-2  h-screen sm:my-5 md:my-32 lg:my-64" id="option">
+            <section  class="z-20 container scroll-m-96 scroll-auto  pt-2  h-screen sm:my-5 md:my-32 lg:my-64" id="option">
                 <div  class="mt-5 animate-slide   bg-violet-950/40 w-full h-auto rounded-3xl  place-self-center shadow-2xl shadow-violet-950">
                     <div class="text-white text-3xl text-center mt-3 bg-violet-950 w-full p-3 rounded-full">
                         Выберите дисциплину
@@ -196,7 +175,7 @@ export default {
                     </div>
                 </div>
             </section>
-            <section class="z-20 container md:hidden sm:hidden xl:block lg:block snap-start scroll-m-[500px] scroll-auto pt-2 h-screen " id="scroll-animate">
+            <section class="z-20 container md:hidden sm:hidden xl:block lg:block -start scroll-m-[500px] scroll-auto pt-2 h-screen " id="scroll-animate">
                 <div :class="{'animate-slide': slide }" @scroll="scrolled" class="text-white  bg-violet-950/40 w-[1450px] h-[700px] place-self-center  overflow-hidden rounded-lg mt-10 shadow-lg  shadow-violet-950 border-[50px] border-opacity-45 border-violet-900/50">
                     <div   class="mt-5 pl-[230px] pt-24 grid-rows-1 justify-items-center grid-cols-6 gap-x-[450px] inline-grid animate-scrolling ">
                         <div class="bg-violet-950 rounded-lg px-4 py-3 text-pretty shadow-2xl shadow-violet-950 h-[375px] w-[400px]  ">
@@ -223,12 +202,12 @@ export default {
                     </div>
                 </div>
             </section>
-            <section class="mt-56 z-20 md:hidden sm:hidden xl:block lg:block text-white rounded-t-lg snap-end bg-violet-950 w-full h-[250px] pt-2 ">
+            <section class="mt-56 z-20 md:hidden sm:hidden xl:block lg:block text-white rounded-t-lg end-0 bg-violet-950 w-full h-[250px] pt-2 ">
                 <div class=" text-4xl text-center place-content-center ">
                     Контакты
                 </div>
                 <div class=" h-[2px] bg-white my-2"></div>
-                <div class="w-full relative text-xl h-full">
+                <div class="w-full relative text-xl ">
 
                     <div class="absolute end-2 text-2xl">
                         <a href="#"><i class="ri-telegram-fill text-2xl"></i></a>
@@ -240,7 +219,7 @@ export default {
                         <i class=" ri-phone-fill "></i>
                         +79655895014
                     </div>
-                    <div class="absolute right-2 bottom-16">
+                    <div class="absolute right-2 top-32">
                        Copyright <i class="ri-copyright-fill"></i>
                         Все права защищены 2024-2025
                     </div>

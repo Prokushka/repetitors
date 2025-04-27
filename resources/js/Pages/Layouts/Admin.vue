@@ -97,7 +97,7 @@ export default {
                         <li class="mx-3 ">
                             <router-link  :to="{name: 'admin_rating'}">Rating</router-link>
                         </li>
-                        <li v-if="accessToken"  class="mx-3 h-12 hover:bg-white hover:text-blue-800 rounded-md px-1 py-2 transition hover:duration-300">
+                        <li class="mx-3 ">
                             <a  @click.prevent="logout">Logout</a>
                         </li>
                     </ul>

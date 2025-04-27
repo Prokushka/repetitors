@@ -18,7 +18,7 @@ Route::get('/profile', [\App\Http\Controllers\User\HomeController::class, 'profi
 Route::middleware(['auth:api', 'jwt_check'])->group(function (){
     Route::group(['prefix' => 'admin'], function (){
         Route::post('/profiles', [\App\Http\Controllers\Admin\ProfileController::class, 'store'])->name('profile.store');
-        Route::get('/profiles', [\App\Http\Controllers\Admin\ProfileController::class, 'index'])->name('profile.store');
+        Route::get('/profiles', [\App\Http\Controllers\Admin\ProfileController::class, 'index'])->name('profile.index');
         Route::get('/profiles/{id}', [\App\Http\Controllers\Admin\ProfileController::class, 'show'])->name('profile.show');
         Route::get('/profiles/create', fn() => view('profile.create')->name('profile.create'));
         Route::get('/profiles/{id}/edit', [\App\Http\Controllers\Admin\ProfileController::class, 'edit'])->name('profile.edit');

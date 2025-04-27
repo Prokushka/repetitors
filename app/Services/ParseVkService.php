@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\Log;
 
 
             ]);
+
             return $response['response'] ? $response['response'] : null;
 
 
@@ -44,18 +45,6 @@ use Illuminate\Support\Facades\Log;
 
         $text = collect($friends['items']);
 
-
-        /*foreach ($friends ?? [] as $friend){
-
-            Profile::query()->create([
-                    'sex' => $friend['profiles']['sex'],
-                    'first_name' => $friend['profiles'][0]['first_name'],
-                    'last_name' => $friend['profiles']['last_name'],
-                    'description' => $friends['items'][0]['text'],
-                    'user_id' => fake()->numberBetween(1, count(User::all()))
-                ]);
-        }*/
-        // $response['response']['items'][0]['attachments'][0]['photo_400_orig']['user_id'];
         for ($i = 0; $i < count($friends['profiles']); $i++){
 
             $authorText = $text->where('from_id', $friends['profiles'][$i]['id'])->pluck('text');
