@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Jobs\ParsingVk;
 use App\Models\Profile;
+use App\Models\Subject;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -55,8 +56,8 @@ use Illuminate\Support\Facades\Log;
                 !Profile::query()->where('vk_id', $friends['items'][$i]['from_id'])->exists() &&
                 !empty($friends['items'][$i]['text']
                 )){
-                $image = ProfileService::parseImage($friends['profiles'][$i]['first_name'] . '_' . $friends['profiles'][$i]['last_name'], $friends['profiles'][$i]['photo_max']);
-                Profile::query()->create([
+                $image = ProfileService::getImage($friends['profiles'][$i]['first_name'], $friends['profiles'][$i]['last_name'], $friends['profiles'][$i]['photo_max']);
+                $profile = Profile::query()->create([
                     'sex' => $friends['profiles'][$i]['sex'],
                     'first_name' => $friends['profiles'][$i]['first_name'],
                     'last_name' => $friends['profiles'][$i]['last_name'],
@@ -65,11 +66,29 @@ use Illuminate\Support\Facades\Log;
                     'user_id' => 1,
                     'vk_id' => $friends['profiles'][$i]['id'],
                 ]);
+                $subjects = Subject::all()->pluck('title')->toArray();
+                for ($v = 0; $v < count($subjects); $v++){
+                        $arr = str_split($subjects[$v], strlen($subjects[$v]) - 4);
+                    $pattern = '/\b(?:' . $arr[0] .')(?:ая|ий|ого|ой|ки|кy|ому|ка|ию|ие)\b/ui';
+
+                    preg_match_all($pattern, $authorText->first(), $regex);
+                    dump($v , $regex[0], !empty($regex[0]));
+                    if (!empty($regex[0])){
+                        $val = $v + 1;
+                        dump($val);
+                        $profile->subjects()->attach(
+                            Subject::query()->where('id', $val)->pluck('id')->first()
+                        );
+                        break;
+                    }
+                }
+
+
+
             }
             else{
-                dump(1);
+                dump(11111);
             }
-
 
         }
         sleep(rand(1,3));

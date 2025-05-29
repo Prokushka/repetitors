@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources;
 
+
+use App\Models\Subject;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -21,6 +23,8 @@ class ProfileResource extends JsonResource
             'image' => "/storage/$this->image",
             'description' => $this->description,
             'user_id' => $this->user_id,
+            'sex' => $this->sex,
+            'subjects' => SubjectResource::collection($this->whenLoaded('profiles'))
         ];
     }
 }

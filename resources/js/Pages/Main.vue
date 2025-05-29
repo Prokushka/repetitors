@@ -84,9 +84,9 @@ export default {
 <template>
 
     <div id="all" class="overflow-hidden w-full h-screen  relative">
-        <img class="absolute z-10  lg:inset-48 inset-0  -rotate-45 text-white bg-fixed" width="600px" src="http://127.0.0.1:8000/storage/back-flower.png">
-        <img class="absolute z-10 sm:hidden md:hidden xl:block lg:hidden top-48 right-40 skew-12  -rotate-45 text-white bg-fixed" width="600px" src="http://127.0.0.1:8000/storage/back-second-flower.png" >
-        <img class=" absolute z-10 sm:hidden md:hidden xl:block lg:block  -top-52 right-40 skew-12 -rotate-90 text-white bg-fixed" width="200px" src="http://127.0.0.1:8000/storage/back-third-flower.png" >
+        <img class="absolute z-10  lg:inset-48 inset-0  -rotate-45 text-white bg-fixed" width="600px" src="http://127.0.0.1:8000/storage/private/back-flower.png">
+        <img class="absolute z-10 sm:hidden md:hidden xl:block lg:hidden top-48 right-40 skew-12  -rotate-45 text-white bg-fixed" width="600px" src="http://127.0.0.1:8000/storage/private/back-second-flower.png" >
+        <img class=" absolute z-10 sm:hidden md:hidden xl:block lg:block  -top-52 right-40 skew-12 -rotate-90 text-white bg-fixed" width="200px" src="http://127.0.0.1:8000/storage/private/back-third-flower.png" >
 
 
         <section id="left-navbar" :class="{'animate-leftMenu' : !leftMenu, 'border-r-2' : !leftMenu}" class=" border-white left-0 z-40  text-white rounded-r-lg h-full text-2xl px-2 bg-violet-950 absolute sm:block lg:hidden"><!--NAVBAR-LEFT-->
